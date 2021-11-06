@@ -76,7 +76,7 @@ module CornucopiaReportPages
       element :show_hide, "a.cornucopia-additional-details"
 
       def details
-        table                   = TableSection.new self, send(:find_first, "div.cornucopia-additional-details > .cornucopia-table")
+        table                   = TableSection.new self, send(:all, "div.cornucopia-additional-details > .cornucopia-table").first
         table.parent_index      = 1
         table.parent_path       = "div.cornucopia-additional-details > .cornucopia-table"
         table.parent_path_owner = self

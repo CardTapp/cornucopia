@@ -73,7 +73,7 @@ describe Cornucopia::Util::LogCapture do
 
   describe "#output_log_file" do
     it "fetches the last 500 lines of a file" do
-      lines = Faker::Lorem.sentences(rand(600..1000))
+      lines = Faker::Lorem.sentences(number: rand(600..1000))
       File.open(file_name, "a:UTF-8") do |write_file|
         write_file.write(lines.join("\n"))
       end
@@ -87,7 +87,7 @@ describe Cornucopia::Util::LogCapture do
     end
 
     it "fetches the last 500 lines of a file even if it has to fetch multiple times" do
-      lines = (0..rand(600..1000)).to_a.map { Faker::Lorem.sentences(rand(5..10)).join(" ") }
+      lines = (0..rand(600..1000)).to_a.map { Faker::Lorem.sentences(number: rand(5..10)).join(" ") }
       File.open(file_name, "a:UTF-8") do |write_file|
         write_file.write(lines.join("\n"))
       end
@@ -174,7 +174,7 @@ describe Cornucopia::Util::LogCapture do
       expect(Cornucopia::Util::LogCapture).to receive(:capture_logs).twice.and_call_original
       Cornucopia::Util::Configuration.add_log_file("sample_log.log")
 
-      lines = Faker::Lorem.sentences(rand(600..1000))
+      lines = Faker::Lorem.sentences(number: rand(600..1000))
       File.open(file_name, "a:UTF-8") do |write_file|
         write_file.write(lines.join("\n"))
       end
@@ -191,7 +191,7 @@ describe Cornucopia::Util::LogCapture do
       expect(Cornucopia::Util::LogCapture).to receive(:capture_logs).twice.and_call_original
       Cornucopia::Util::Configuration.add_log_file("sample_log.log")
 
-      lines = Faker::Lorem.sentences(rand(600..1000))
+      lines = Faker::Lorem.sentences(number: rand(600..1000))
       File.open(file_name, "a:UTF-8") do |write_file|
         write_file.write(lines.join("\n"))
       end
@@ -212,7 +212,7 @@ describe Cornucopia::Util::LogCapture do
       FileUtils.cd Rails.root.to_s
       expect(Object).to receive(:const_defined?).at_least(1).with("Rails").and_return(false)
 
-      lines = Faker::Lorem.sentences(rand(600..1000))
+      lines = Faker::Lorem.sentences(number: rand(600..1000))
       File.open(file_name, "a:UTF-8") do |write_file|
         write_file.write(lines.join("\n"))
       end

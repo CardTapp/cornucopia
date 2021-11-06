@@ -412,7 +412,7 @@ This is a sample string c:/bizarro/ <span class=\"cornucopia-app-file\">features
   describe "#build_index_section" do
     it "creates a list item with an anchor" do
       a_title = Faker::Lorem.sentence
-      strings = Faker::Lorem.sentences(5)
+      strings = Faker::Lorem.sentences(number: 5)
       strings.map! { |string| string.gsub(" ", "/") }
       result_string = Cornucopia::Util::ReportBuilder.build_index_section(a_title, strings)
 
@@ -929,7 +929,7 @@ This is a sample string c:/bizarro/ <span class=\"cornucopia-app-file\">features
         it "initializes the report_contents file" do
           current_report = send(report_settings[:report])
           expect(current_report).to receive(:initialize_basic_report_files).and_call_original
-          write_contents = Faker::Lorem.paragraphs(rand(5..8)).join("\n\n")
+          write_contents = Faker::Lorem.paragraphs(number: rand(5..8)).join("\n\n")
 
           current_report.open_report_contents_file do |writer|
             writer.write(write_contents)
@@ -946,7 +946,7 @@ This is a sample string c:/bizarro/ <span class=\"cornucopia-app-file\">features
         it "initializes the report_contents file" do
           current_report = send(report_settings[:report])
           expect(current_report).to receive(:initialize_report_test_files).and_call_original
-          write_contents = Faker::Lorem.paragraphs(rand(5..8)).join("\n\n")
+          write_contents = Faker::Lorem.paragraphs(number: rand(5..8)).join("\n\n")
 
           current_report.open_report_test_contents_file do |writer|
             writer.write(write_contents)

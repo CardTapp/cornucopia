@@ -313,7 +313,7 @@ module Cornucopia
 
       def delete_old_folders
         old_directories = Dir[File.join(index_folder_name, "#{@base_folder_name}_*")].
-            map { |dir| File.directory?(dir) ? dir : nil }.compact
+            map { |dir| File.directory?(dir) ? dir : nil }.compact.sort
 
         if Array.wrap(old_directories).length > MAX_OLD_FOLDERS
           old_directories.each_with_index do |dir, index|

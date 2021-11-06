@@ -165,7 +165,7 @@ describe Cornucopia::Util::ReportTable do
     it "nests tables" do
       nest_label   = "".html_safe + Faker::Lorem.sentence
       second_label = "".html_safe + Faker::Lorem.sentence
-      second_body  = "".html_safe + Faker::Lorem.paragraphs(rand(3..5)).join("\n")
+      second_body  = "".html_safe + Faker::Lorem.paragraphs(number: rand(3..5)).join("\n")
 
       report_table = nil
       Cornucopia::Util::ReportTable.new(table_prefix:  pre_text,
@@ -193,7 +193,7 @@ describe Cornucopia::Util::ReportTable do
     it "nests tables if they are not empty" do
       nest_label   = "".html_safe + Faker::Lorem.sentence
       second_label = "".html_safe + Faker::Lorem.sentence
-      second_body  = "".html_safe + Faker::Lorem.paragraphs(rand(3..5)).join("\n")
+      second_body  = "".html_safe + Faker::Lorem.paragraphs(number: rand(3..5)).join("\n")
 
       report_table = nil
       Cornucopia::Util::ReportTable.new(table_prefix:  pre_text,
@@ -222,7 +222,7 @@ describe Cornucopia::Util::ReportTable do
     it "does not nest tables if they are empty" do
       nest_label   = "".html_safe + Faker::Lorem.sentence
       second_label = "".html_safe + Faker::Lorem.sentence
-      second_body  = "".html_safe + Faker::Lorem.paragraphs(rand(3..5)).join("\n")
+      second_body  = "".html_safe + Faker::Lorem.paragraphs(number: rand(3..5)).join("\n")
 
       report_table = nil
       Cornucopia::Util::ReportTable.new(table_prefix:  pre_text,
@@ -250,7 +250,7 @@ describe Cornucopia::Util::ReportTable do
     it "nests tables even if there is an exception" do
       nest_label   = "".html_safe + Faker::Lorem.sentence
       second_label = "".html_safe + Faker::Lorem.sentence
-      second_body  = "".html_safe + Faker::Lorem.paragraphs(rand(3..5)).join("\n")
+      second_body  = "".html_safe + Faker::Lorem.paragraphs(number: rand(3..5)).join("\n")
 
       report_table = nil
       expect do
@@ -283,7 +283,7 @@ describe Cornucopia::Util::ReportTable do
     it "nests tables even if there is an exception multiple levels deep" do
       nest_label   = "".html_safe + Faker::Lorem.sentence
       second_label = "".html_safe + Faker::Lorem.sentence
-      second_body  = "".html_safe + Faker::Lorem.paragraphs(rand(3..5)).join("\n")
+      second_body  = "".html_safe + Faker::Lorem.paragraphs(number: rand(3..5)).join("\n")
 
       report_table = nil
       expect do

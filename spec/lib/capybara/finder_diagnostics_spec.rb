@@ -81,7 +81,7 @@ describe Cornucopia::Capybara::FinderDiagnostics, type: :feature do
         expect(contents_frame.errors[0].tables[0].rows[2].sub_tables[0].rows[0].values[0].text).to be == ":css"
         expect(contents_frame.errors[0].tables[0].rows[2].sub_tables[0].rows[1].labels[0].text).to be == "1"
         expect(contents_frame.errors[0].tables[0].rows[2].sub_tables[0].rows[1].values[0].text).to be == "#base-contentss"
-        expect(contents_frame.errors[0].tables[0].rows[3].labels[0].text).to be == "exception"
+        expect(contents_frame.errors[0].tables[0].rows[3].labels[0].text).to be == "message"
         expect(contents_frame.errors[0].tables[0].rows[3].values[0].text).to be == "Unable to find css \"#base-contentss\""
         expect(contents_frame.errors[0].tables[0].rows[4].labels[0].text).to be == "backtrace"
         expect(contents_frame.errors[0].tables[0].rows[4].expands[0]).to be
@@ -156,8 +156,8 @@ describe Cornucopia::Capybara::FinderDiagnostics, type: :feature do
         expect(contents_frame.errors[0].tables[0].rows[2].sub_tables[0].rows[0].values[0].text).to be == ":css"
         expect(contents_frame.errors[0].tables[0].rows[2].sub_tables[0].rows[1].labels[0].text).to be == "1"
         expect(contents_frame.errors[0].tables[0].rows[2].sub_tables[0].rows[1].values[0].text).to be == "a"
-        expect(contents_frame.errors[0].tables[0].rows[3].labels[0].text).to be == "exception"
-        expect(contents_frame.errors[0].tables[0].rows[3].values[0].text).to match /Ambiguous match, found .+ elements matching css "a"/
+        expect(contents_frame.errors[0].tables[0].rows[3].labels[0].text).to be == "message"
+        expect(contents_frame.errors[0].tables[0].rows[3].values[0].text).to match /Ambiguous match, found .+ elements matching visible css "a"/
         expect(contents_frame.errors[0].tables[0].rows[4].labels[0].text).to be == "backtrace"
         expect(contents_frame.errors[0].tables[0].rows[4].expands[0]).to be
         expect(contents_frame.errors[0].tables[0].rows[4].mores[0]).to be
@@ -539,7 +539,7 @@ describe Cornucopia::Capybara::FinderDiagnostics, type: :feature do
               to receive(:execute_script).at_least(1).times.and_raise(::Capybara::NotSupportedByDriverError)
 
           base_object = ::Capybara.current_session.find(:css, "#hidden-div", visible: false)
-          button      = base_object.first("Still cool!", count: 1)
+          button      = base_object.first("input[type='button']", count: 1)
 
           expect(button.class).to be == ::Capybara::Node::Element
 
@@ -574,7 +574,7 @@ describe Cornucopia::Capybara::FinderDiagnostics, type: :feature do
               to receive(:execute_script).at_least(1).times.and_raise(::Capybara::NotSupportedByDriverError)
 
           base_object = ::Capybara.current_session.find(:css, "#hidden-div", visible: false)
-          button      = base_object.assert_selector("Still cool!", count: 1)
+          button      = base_object.assert_selector("input[type='button']", count: 1)
 
           expect(button).to be true
 

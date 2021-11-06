@@ -9,7 +9,7 @@ def generate_report_file(folder_name)
       build_report.within_table do |table|
         build_table(table, 0)
 
-        @last_val = Faker::Lorem.words(rand(1..4)).join("_")
+        @last_val = Faker::Lorem.words(number: rand(1..4)).join("_")
         table.write_stats(@last_val, Faker::Lorem.sentence)
       end
     end
@@ -27,21 +27,21 @@ def build_table(table, level)
       when 9
         if level < 3
           Cornucopia::Util::ReportTable.new(nested_table:       table,
-                                            nested_table_label: Faker::Lorem.words(rand(1..4)).join("_")) do |sub_report|
+                                            nested_table_label: Faker::Lorem.words(number: rand(1..4)).join("_")) do |sub_report|
             build_table(sub_report, level + 1)
           end
         else
-          table.write_stats(Faker::Lorem.words(rand(1..4)).join("_"), Faker::Lorem.sentence)
+          table.write_stats(Faker::Lorem.words(number: rand(1..4)).join("_"), Faker::Lorem.sentence)
         end
 
       when 2
-        table.write_stats(Faker::Lorem.words(rand(1..4)).join("_"), Faker::Lorem.paragraph)
+        table.write_stats(Faker::Lorem.words(number: rand(1..4)).join("_"), Faker::Lorem.paragraph)
 
       when 3
-        table.write_stats(Faker::Lorem.words(rand(1..4)).join("_"), Faker::Lorem.paragraphs(rand(5..10)).join("\n\n"))
+        table.write_stats(Faker::Lorem.words(number: rand(1..4)).join("_"), Faker::Lorem.paragraphs(number: rand(5..10)).join("\n\n"))
 
       else
-        table.write_stats(Faker::Lorem.words(rand(1..4)).join("_"), Faker::Lorem.sentence)
+        table.write_stats(Faker::Lorem.words(number: rand(1..4)).join("_"), Faker::Lorem.sentence)
     end
   end
 end

@@ -4,10 +4,18 @@ require 'active_support/concern'
 
 module Cornucopia
   module SitePrism
+    module ClassExtensions
+      def to_capybara_node
+        @__corunucopia_base_node || super
+      end
+    end
+
     module ElementExtensions
       extend ActiveSupport::Concern
 
       included do
+        self.prepend Cornucopia::SitePrism::ClassExtensions
+
         ::Capybara::Session::DSL_METHODS.each do |method|
           alias_method "__cornucopia_site_prism_orig_#{method}".to_sym, method
 

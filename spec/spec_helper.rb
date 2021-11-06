@@ -58,7 +58,24 @@ end
 
 require ::File.expand_path("../lib/cornucopia/util/configuration", File.dirname(__FILE__))
 
-Capybara.default_driver = :selenium
+# Capybara.default_driver = :selenium
+Capybara.server = :webrick
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+Capybara.register_driver :headless_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.
+      chrome(chromeOptions: { args: %w[headless enable-features=NetworkService,NetworkServiceInProcess] })
+
+  Capybara::Selenium::Driver.new app,
+                                 browser: :chrome,
+                                 desired_capabilities: capabilities
+end
+
+Capybara.default_driver = :headless_chrome
+Capybara.javascript_driver = :headless_chrome
 
 # Cornucopia::Util::Configuration.seed = 1
 # Cornucopia::Util::Configuration.order_seed = 1

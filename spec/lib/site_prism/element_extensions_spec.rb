@@ -13,12 +13,12 @@ describe "SitePrism element_extensions" do
   [TestSection, TestPage].sample(2).each do |test_class|
     describe "#{test_class.name}" do
       let(:pre_name) { Faker::Lorem.word }
-      let(:element_names) { Faker::Lorem.words(rand(3..10)).map(&:to_sym) }
-      let(:class_element_names) { element_names + rand(3..10).times.map(Faker::Lorem.words(rand(2..3).join("-"))) }
+      let(:element_names) { Faker::Lorem.words(number: rand(3..10)).map(&:to_sym) }
+      let(:class_element_names) { element_names + rand(3..10).times.map { Faker::Lorem.words(number: rand(2..3)).join("-") } }
       let(:increment) { rand(2..10) }
       let(:start_index) { rand(2..10) }
       let(:options) do
-        Faker::Lorem.words(rand(3..10)).reduce({}) do |hash, option_name|
+        Faker::Lorem.words(number: rand(3..10)).reduce({}) do |hash, option_name|
           hash[option_name] = Faker::Lorem.word
           hash
         end
