@@ -1,32 +1,27 @@
 # frozen_string_literal: true
 
 require 'active_support/concern'
+require ::File.expand_path("class_extensions", File.dirname(__FILE__))
 
 module Cornucopia
   module SitePrism
-    module ClassExtensions
-      def to_capybara_node
-        @__corunucopia_base_node || super
-      end
-    end
-
     module ElementExtensions
       extend ActiveSupport::Concern
 
       included do
-        self.prepend Cornucopia::SitePrism::ClassExtensions
-
         ::Capybara::Session::DSL_METHODS.each do |method|
-          alias_method "__cornucopia_site_prism_orig_#{method}".to_sym, method
+          next if Cornucopia::SitePrism::ClassExtensions.methods.include?(method)
 
-          define_method method do |*args, &block|
+          Cornucopia::SitePrism::ClassExtensions.define_singleton_method(method) do |*args, **options, &block|
             if @__corunucopia_base_node
-              @__corunucopia_base_node.send method, *args, &block
+              @__corunucopia_base_node.send(method, *args, **options, &block)
             else
-              send "__cornucopia_site_prism_orig_#{method}", *args, &block
+              super(*args, **options, &block)
             end
           end
         end
+
+        self.prepend Cornucopia::SitePrism::ClassExtensions
       end
 
       module ClassMethods

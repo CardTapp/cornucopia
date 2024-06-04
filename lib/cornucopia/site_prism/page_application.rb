@@ -66,8 +66,8 @@ module Cornucopia
           end
         end
 
-        def respond_to?(method_sym, include_private = false)
-          if self.current_instance.respond_to?(method_sym, include_private)
+        def respond_to_missing?(method_name, include_private = false)
+          if self.current_instance.respond_to_missing?(method_sym, include_private)
             true
           else
             super
@@ -114,7 +114,7 @@ module Cornucopia
         end
       end
 
-      def respond_to?(method_sym, include_private = false)
+      def respond_to_missing?(method_sym, include_private = false)
         method_name = method_sym.to_s
 
         if is_page_name?(method_name)

@@ -47,7 +47,9 @@ describe Cornucopia::Capybara::MatcherExtensions, type: :feature do
         num_calls   = 0
 
         allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_assert_selector) do |*args|
+            to receive(:__cornucopia__call_super?) do |function_name, *args|
+          next true if function_name != :assert_selector
+
           num_calls += 1
 
           if time_count > 0
@@ -56,14 +58,12 @@ describe Cornucopia::Capybara::MatcherExtensions, type: :feature do
           end
 
           expect(args).to be == ["a"]
-          found_elements
+          true
         end
 
         second_found = contents_frame.assert_selector("a")
 
-        allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_assert_selector).
-                   and_call_original
+        allow(contents_frame.page.document).to receive(:__cornucopia__call_super?).and_call_original
 
         # I realize that this is almost like testing that the stub worked, which we don't need to test.
         # However, we are really testing that the results returned by the stub are passed back all the way
@@ -89,15 +89,15 @@ describe Cornucopia::Capybara::MatcherExtensions, type: :feature do
                    and_return(found_elements)
 
         allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_assert_selector) do |*args|
+            to receive(:__cornucopia__call_super?) do |function_name|
+          next true if function_name != :assert_selector
+
           raise Selenium::WebDriver::Error::StaleElementReferenceError.new
         end
 
         second_found = contents_frame.assert_selector("a")
 
-        allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_assert_selector).
-                   and_call_original
+        allow(contents_frame.page.document).to receive(:__cornucopia__call_super?).and_call_original
 
         # I realize that this is almost like testing that the stub worked, which we don't need to test.
         # However, we are really testing that the results returned by the stub are passed back all the way
@@ -120,16 +120,14 @@ describe Cornucopia::Capybara::MatcherExtensions, type: :feature do
             to receive(:__cornucopia__analyze_selector).
                    and_return(found_elements)
 
-        allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_assert_no_selector) do |*args|
+        allow(contents_frame.page.document).to receive(:__cornucopia__call_super?) do |function_name|
+          next true if function_name != :assert_no_selector
           raise "This is an error"
         end
 
         second_found = contents_frame.assert_no_selector(".report-block")
 
-        allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_assert_no_selector).
-                   and_call_original
+        allow(contents_frame.page.document).to receive(:__cornucopia__call_super?).and_call_original
 
         # I realize that this is almost like testing that the stub worked, which we don't need to test.
         # However, we are really testing that the results returned by the stub are passed back all the way

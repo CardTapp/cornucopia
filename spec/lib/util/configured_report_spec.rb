@@ -1043,7 +1043,7 @@ describe Cornucopia::Util::ConfiguredReport do
       Cornucopia::Util::ReportTable.new do |report_table|
         simple_report.leaf_options = [{ report_element: [:key_1], report_options: { fake_options: true } }]
 
-        expect(report_table).to receive(:write_stats).with(:key_1, "value", fake_options: true)
+        expect(report_table).to receive(:write_stats).with(:key_1, "value", { fake_options: true })
 
         simple_report.export_field_record({ report_element: [:test,
                                                              :hash_variable,
@@ -1060,7 +1060,7 @@ describe Cornucopia::Util::ConfiguredReport do
       Cornucopia::Util::ReportTable.new do |report_table|
         simple_report.leaf_options = [{ report_element: [:key_1], report_options: { fake_options: true } }]
 
-        expect(report_table).to receive(:write_stats).with(:key_1, "value", real_options: true)
+        expect(report_table).to receive(:write_stats).with(:key_1, "value", { real_options: true })
 
         simple_report.export_field_record({ report_element: [:test,
                                                              :hash_variable,
@@ -1080,7 +1080,7 @@ describe Cornucopia::Util::ConfiguredReport do
         simple_report.leaf_options = [{ report_element: [:key_1], report_options: { fake_options: true } }]
 
         expect(report_table).
-            to receive(:write_stats).with(custom_label, "value", real_options: true, label: custom_label)
+            to receive(:write_stats).with(custom_label, "value", { real_options: true, label: custom_label })
 
         simple_report.export_field_record({ report_element: [:test,
                                                              :hash_variable,

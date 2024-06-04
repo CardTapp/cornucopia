@@ -13,6 +13,6 @@ if Object.const_defined?("SitePrism") &&
     SitePrism::Section.include Cornucopia::SitePrism::ElementExtensions
   end
   unless SitePrism::Section.included_modules.include?(Cornucopia::SitePrism::SectionExtensions)
-    SitePrism::Section.include Cornucopia::SitePrism::SectionExtensions
+    SitePrism::Section.prepend Cornucopia::SitePrism::SectionExtensions
   end
 end

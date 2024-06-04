@@ -14,5 +14,6 @@ gemspec
 # gem 'debugger'
 
 gem "gem-release"
-gem 'webdrivers', '~> 3.7', '>= 3.7.2'
-gem 'capybara-selenium', '~> 0.0.6'
+gem "selenium-webdriver"
+# gem 'webdrivers', '~> 3.7', '>= 3.7.2'
+# gem 'capybara-selenium', '~> 0.0.6'

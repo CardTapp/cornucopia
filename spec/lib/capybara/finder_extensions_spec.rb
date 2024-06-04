@@ -47,7 +47,9 @@ describe Cornucopia::Capybara::FinderExtensions, type: :feature do
         num_calls   = 0
 
         allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_all) do |*args|
+            to receive(:__cornucopia__call_super?) do |*args|
+          next true if args[0] != :all
+
           num_calls += 1
 
           if time_count > 0
@@ -55,20 +57,22 @@ describe Cornucopia::Capybara::FinderExtensions, type: :feature do
             raise Selenium::WebDriver::Error::StaleElementReferenceError.new
           end
 
-          expect(args).to be == ["a"]
-          found_elements
+          expect(args[0]).to be == :all
+          expect(args[1..]).to be == ["a"]
+
+          true
         end
 
         second_found = contents_frame.all("a")
 
         allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_all).
+            to receive(:__cornucopia__call_super?).
                 and_call_original
 
         # I realize that this is almost like testing that the stub worked, which we don't need to test.
         # However, we are really testing that the results returned by the stub are passed back all the way
         # Which we do need to test.
-        expect(second_found).to be == found_elements
+        expect(second_found.to_a).to be == found_elements.to_a
         expect(time_count).to be == 0
         expect(num_calls).to be == num_retries + 1
       end
@@ -89,20 +93,22 @@ describe Cornucopia::Capybara::FinderExtensions, type: :feature do
                 and_return(found_elements)
 
         allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_all) do |*args|
+            to receive(:__cornucopia__call_super?) do |function_name|
+          next true if function_name != :all
+
           raise Selenium::WebDriver::Error::StaleElementReferenceError.new
         end
 
         second_found = contents_frame.all("a")
 
         allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_all).
+            to receive(:__cornucopia__call_super?).
                 and_call_original
 
         # I realize that this is almost like testing that the stub worked, which we don't need to test.
         # However, we are really testing that the results returned by the stub are passed back all the way
         # Which we do need to test.
-        expect(second_found).to be == found_elements
+        expect(second_found.to_a).to be == found_elements.to_a
       end
     end
 
@@ -121,14 +127,16 @@ describe Cornucopia::Capybara::FinderExtensions, type: :feature do
                 and_return(found_elements)
 
         allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_find) do |*args|
+            to receive(:__cornucopia__call_super?) do |function_name|
+          next true if function_name != :find
+
           raise "This is an error"
         end
 
         second_found = contents_frame.find(".report-block")
 
         allow(contents_frame.page.document).
-            to receive(:__cornucopia_capybara_orig_find).
+            to receive(:__cornucopia__call_super?).
                 and_call_original
 
         # I realize that this is almost like testing that the stub worked, which we don't need to test.

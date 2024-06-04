@@ -93,7 +93,7 @@ describe Cornucopia::Capybara::FinderDiagnostics, type: :feature do
         expect(contents_frame.errors[0].more_details.details.rows[0].labels[0].text).to be == "name"
         expect(contents_frame.errors[0].more_details.details.rows[0].values[0].text).to be == "Capybara::ElementNotFound"
         expect(contents_frame.errors[0].more_details.details.rows[1].labels[0].text).to be == "support_options"
-        expect(contents_frame.errors[0].more_details.details.rows[1].values[0].text).to be == "{:__cornucopia_no_analysis=>true, :__cornucopia_retry_with_found=>nil}"
+        expect(contents_frame.errors[0].more_details.details.rows[1].values[0].text).to be == "{:__cornucopia_no_analysis=>true}"
         expect(contents_frame.errors[0].more_details.details.rows[2].labels[0].text).to be == "page_url"
         expect(contents_frame.errors[0].more_details.details.rows[2].values[0].text).to match %r{sample_report/index\.html}
         expect(contents_frame.errors[0].more_details.details.rows[3].labels[0].text).to be == "title"
@@ -173,7 +173,7 @@ describe Cornucopia::Capybara::FinderDiagnostics, type: :feature do
         expect(contents_frame.errors[0].more_details.details.rows[2].labels[0].text).to be == "guessed_types"
         expect(contents_frame.errors[0].more_details.details.rows[2].values[0].text).to be
         expect(contents_frame.errors[0].more_details.details.rows[3].labels[0].text).to be == "support_options"
-        expect(contents_frame.errors[0].more_details.details.rows[3].values[0].text).to be == "{:__cornucopia_no_analysis=>true, :__cornucopia_retry_with_found=>nil}"
+        expect(contents_frame.errors[0].more_details.details.rows[3].values[0].text).to be == "{:__cornucopia_no_analysis=>true}"
         expect(contents_frame.errors[0].more_details.details.rows[4].labels[0].text).to be == "page_url"
         expect(contents_frame.errors[0].more_details.details.rows[4].values[0].text).to match %r{sample_report/index\.html}
         expect(contents_frame.errors[0].more_details.details.rows[5].labels[0].text).to be == "title"
@@ -279,8 +279,6 @@ describe Cornucopia::Capybara::FinderDiagnostics, type: :feature do
         expect(contents_frame.errors[0].more_details.details.rows[1].labels[0].text).to be == "args"
         expect(contents_frame.errors[0].more_details.details.rows[1].sub_tables[0].rows[0].labels[0].text).to be == "1"
         expect(contents_frame.errors[0].more_details.details.rows[1].sub_tables[0].rows[0].values[0].text).to be == "a"
-        expect(contents_frame.errors[0].more_details.details.rows[1].sub_tables[0].rows[1].labels[0].text).to be == "2"
-        expect(contents_frame.errors[0].more_details.details.rows[1].sub_tables[0].rows[1].values[0].text).to be == "{:visible=>true}"
         expect(contents_frame.errors[0].more_details.details.rows[2].labels[0].text).to be == "guessed_types"
         expect(contents_frame.errors[0].more_details.details.rows[2].values[0].text).to be
         expect(contents_frame.errors[0].more_details.details.rows[3].labels[0].text).to be == "page_url"
@@ -617,18 +615,18 @@ describe Cornucopia::Capybara::FinderDiagnostics, type: :feature do
           allow_any_instance_of(::Cornucopia::Capybara::FinderDiagnostics::FindAction).
               to receive(:all_other_elements).and_return []
           allow(empty_find_button).to receive(:size).and_return 0
-          allow_any_instance_of(::Capybara::Node::Element).
+          allow_any_instance_of(Cornucopia::Capybara::FinderDiagnostics::FindAction).
               to receive(:all).
                      and_call_original
-          allow_any_instance_of(::Capybara::Node::Element).
+          allow_any_instance_of(Cornucopia::Capybara::FinderDiagnostics::FindAction).
               to receive(:all).
                      with("Still cool!", { count: 1 }).
                      and_return(find_button)
-          allow_any_instance_of(::Capybara::Node::Element).
+          allow_any_instance_of(Cornucopia::Capybara::FinderDiagnostics::FindAction).
               to receive(:all).
                      with(instance_of(Symbol), "Still cool!", { visible: false, __cornucopia_no_analysis: true }).
                      and_return(empty_find_button)
-          allow_any_instance_of(::Capybara::Node::Element).
+          allow_any_instance_of(Cornucopia::Capybara::FinderDiagnostics::FindAction).
               to receive(:all).
                      with("Still cool!", { visible: false, __cornucopia_no_analysis: true }).
                      and_return(empty_find_button)

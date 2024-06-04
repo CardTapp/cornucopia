@@ -33,7 +33,6 @@ spec/dummy/.sass-cache
 *.rbc
 .config
 .yardoc
-Gemfile.lock
 InstalledFiles
 _yardoc
 doc/
@@ -50,4 +49,3 @@ spec/dummy/.rspec
 test_reports/*
 .idea/
 **/.DS_Store
-/.ruby-version

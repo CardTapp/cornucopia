@@ -15,7 +15,7 @@ module Cornucopia
       def synchronize_test(seconds = nil, options = {}, &block)
         seconds ||= ::Capybara.respond_to?(:default_max_wait_time) ? ::Capybara.default_max_wait_time : ::Capybara.default_wait_time
 
-        document.synchronize(seconds, options) do
+        document.synchronize(seconds, **options) do
           raise ::Capybara::ElementNotFound unless block.yield
         end
       end
